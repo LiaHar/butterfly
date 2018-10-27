@@ -29,8 +29,11 @@ const rand = function(num) {
    const flower = new Image();
    flower.src = "https://cdn158.picsart.com/225524786016202.png?r1024x1024";
 
+   const bee = new Image();
+   bee.src = "https://melbournechapter.net/images/bee-clipart-transparent-background-4.png";
+
    const createBoxes = function(count, canvasWidth, canvasHeight){
-const base = [];
+   const base = [];
     for(let  i = 0; i< count; i++){
         base[base.length]= {
      x: rand(canvasWidth-30),
@@ -39,10 +42,9 @@ const base = [];
      height: 30,
      xDelta: 1,         
      yDelta:  1,     
-     color: colorArray[rand(colorArray.length) - 1],
+     image: bee,
      draw: function(){
-         context.fillStyle = this.color;
-         context.fillRect(this.x, this.y, this.width, this.height);
+        context.drawImage(this.image, this.x, this.y, this.width, this.height);
      },
      update: function(){
          this.x += this.xDelta;
@@ -75,11 +77,11 @@ const base = [];
      draw: function(){
         context.drawImage(this.image, this.x, this.y, this.width, this.height);
      },
-    }
+        }
 
-} 
-return base;
-}
+    } 
+ return base;
+ };
 
 
    const hero = {
@@ -91,37 +93,37 @@ return base;
        yDelta: 0,
        image: butterfly,
        draw: function(){
-        context.drawImage(this.image, this.x, this.y, this.width, this.height);
+       context.drawImage(this.image, this.x, this.y, this.width, this.height);
        },
        update: function(boxik){
-
         for(let i = 0; i < boxik.length;i++){
             
+            
+
             if(this.x < boxik[i].x +boxik[i].width  && this.x + this.width > boxik[i].x &&
-        this.y < boxik[i].y + boxik[i].height && this.y + this.height > boxik[i].y ){
-            alert("afsd");
+               this.y < boxik[i].y + boxik[i].height && this.y + this.height > boxik[i].y )  {
+                   alert("game over!!!!!!!! " + "your score is "+hashiv);
 
             }
         
         }
-           this.x += this.xDelta;
-           this.y += this.yDelta;
+         
+            this.x += this.xDelta;
+            this.y += this.yDelta;
        },
        update1: function(boxa){
         for(let i = 0; i < boxa.length;i++){
             
             if(this.x < boxa[i].x +boxa[i].width  && this.x + this.width > boxa[i].x &&
-        this.y < boxa[i].y + boxa[i].height && this.y + this.height > boxa[i].y ){
-            boxa.splice(i, 1);
-            hashiv += 1;
-            console.log(hashiv);
+               this.y < boxa[i].y + boxa[i].height && this.y + this.height > boxa[i].y )  {
+                    boxa.splice(i, 1);
+                    hashiv += 1;
+                    console.log(hashiv);
             }
-       }
-   }};
+        }
+       },
 
-
-
-
+   };
 
    const leftKey = 37;
    const upKey = 38;
@@ -129,16 +131,16 @@ return base;
    const downKey = 40;
    document.addEventListener("keydown", function(event){
        if(event.keyCode === upKey) {
-        hero.yDelta = -1;
+        hero.yDelta = -3;
        }
        if(event.keyCode === leftKey) {
-        hero.xDelta = -1;
+        hero.xDelta = -3;
        }
        if(event.keyCode === rightKey) {
-        hero.xDelta = 1;
+        hero.xDelta = 3;
        }
        if(event.keyCode === downKey) {
-        hero.yDelta = 1;
+        hero.yDelta = 3;
        }
    }, false)
    document.addEventListener("keyup", function(event){
@@ -148,31 +150,34 @@ return base;
        
    }, false)
 
-
-
-
-
    const a = createBoxes(3, canvas.width, canvas.height);
-   const flowerCoint = createFlowers(3, canvas.width, canvas.height)
+   const flowerCoint = createFlowers(15, canvas.width, canvas.height)
 
    const draw = function(boxes) {
  
     for(let i = 0;i< boxes.length; i++) {
         boxes[i].draw();
     }
-}
 
-const update = function(boxes) {
+   }  
+
+   const update = function(boxes) {
+
     for(let i = 0; i< boxes.length; i++){
         boxes[i].update();
         
     }
-}
-const drawF = function(boxes){
+
+   }
+
+   const drawF = function(boxes){
+
     for(let i = 0;i< boxes.length; i++) {
         boxes[i].draw();
+
     }
-}
+ }
+
 
 
 
@@ -186,6 +191,7 @@ const drawF = function(boxes){
    
 
     hero.draw();
+  
     hero.update(a);
     hero.update1(flowerCoint); 
     requestAnimationFrame(loop);
